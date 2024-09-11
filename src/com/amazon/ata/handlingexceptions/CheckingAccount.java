@@ -3,6 +3,7 @@ package com.amazon.ata.handlingexceptions;
 import java.math.BigDecimal;
 
 import com.amazon.ata.handlingexceptions.exceptions.InsufficientFundsException;
+import com.amazon.ata.handlingexceptions.exceptions.InvalidInputException;
 
 /**
  * This class represents a checking bank account, which includes methods that 
@@ -37,9 +38,13 @@ public class CheckingAccount implements BankAccount {
      * @return value of account after the deposit
      */
     @Override
-    public BigDecimal deposit(BigDecimal amount) {
+    public BigDecimal deposit(BigDecimal amount) throws InvalidInputException{
         // TODO: Implement
-        return BigDecimal.ZERO;
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidInputException("Invalid input");
+        }
+        this.balance = balance.add(amount);
+        return this.balance;
     }
 
     /**
@@ -50,13 +55,21 @@ public class CheckingAccount implements BankAccount {
      * @throws InsufficientFundsException if account does not have enough funds to withdraw amount
      */
     @Override
-    public BigDecimal withdraw(BigDecimal amount) {
+    public BigDecimal withdraw(BigDecimal amount) throws InsufficientFundsException, InvalidInputException {
         // TODO: implement
-        return BigDecimal.ZERO;
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidInputException("Does not exists");
+        }
+        if (amount.compareTo(this.balance) > 0) {
+            throw new InsufficientFundsException("Insufficient Funds");
+        }
+        this.balance = balance.subtract(amount);
+        return this.balance;
     }
 
     @Override
     public BigDecimal getBalance() {
         // TODO: implement
-        return BigDecimal.ZERO;    }
+        return this.balance;
+    }
 }

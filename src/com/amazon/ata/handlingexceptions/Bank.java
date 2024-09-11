@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import com.amazon.ata.handlingexceptions.exceptions.InvalidInputException;
+import com.amazon.ata.handlingexceptions.exceptions.TransactionException;
 
 /**
  * This class represents a bank, which includes the functionality to transfer from
@@ -20,8 +22,17 @@ public class Bank {
      * @param amount of money to transfer.
      * @return true if transfer was successful, false if transfer fails due to insufficient funds
      */
-    public boolean transfer(BankAccount fromAccount, BankAccount toAccount, BigDecimal amount) {
+    public boolean transfer(BankAccount fromAccount, BankAccount toAccount, BigDecimal amount) throws InvalidInputException, TransactionException {
         // TODO: implement
-        return false;
+        try {
+            fromAccount.withdraw(amount);
+            toAccount.deposit(amount);
+            return true;
+        } catch (TransactionException e) {
+            log.atError();
+            throw e;
+        } catch (InvalidInputException e) {
+            throw new InvalidInputException("Invalid Input");
+        }
     }
 }

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.amazon.ata.handlingexceptions.exceptions.InvalidInputException;
 import com.amazon.ata.handlingexceptions.exceptions.TransactionException;
+import com.amazon.ata.handlingexceptions.exceptions.InsufficientFundsException;
 
 /**
  * This class represents a bank, which includes the functionality to transfer from
@@ -28,11 +29,14 @@ public class Bank {
             fromAccount.withdraw(amount);
             toAccount.deposit(amount);
             return true;
-        } catch (TransactionException e) {
-            log.atError();
-            throw e;
         } catch (InvalidInputException e) {
-            throw new InvalidInputException("Invalid Input");
+            System.out.println(amount + " is an Invalid Input");
+            throw e;
+        } catch (TransactionException e) {
+            if (amount.compareTo(fromAccount.getBalance()) > 0) {
+                return false;
+            }
         }
+        return true;
     }
 }

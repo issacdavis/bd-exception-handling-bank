@@ -35,7 +35,7 @@ class BankTest {
     }
     
     @Test
-    public void transfer_insufficientFunds_returnsFalse() throws InvalidInputException {
+    public void transfer_insufficientFunds_returnsFalse() throws InvalidInputException, TransactionException {
         
         // GIVEN
         CheckingAccount account1 = new CheckingAccount("account1", new BigDecimal("500.00"));

@@ -38,7 +38,7 @@ public class CheckingAccount implements BankAccount {
      * @return value of account after the deposit
      */
     @Override
-    public BigDecimal deposit(BigDecimal amount) throws InvalidInputException{
+    public BigDecimal deposit(BigDecimal amount) {
         // TODO: Implement
         if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new InvalidInputException("Invalid input");
@@ -55,7 +55,7 @@ public class CheckingAccount implements BankAccount {
      * @throws InsufficientFundsException if account does not have enough funds to withdraw amount
      */
     @Override
-    public BigDecimal withdraw(BigDecimal amount) throws InsufficientFundsException, InvalidInputException {
+    public BigDecimal withdraw(BigDecimal amount) throws InsufficientFundsException {
         // TODO: implement
         if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new InvalidInputException("Does not exists");
